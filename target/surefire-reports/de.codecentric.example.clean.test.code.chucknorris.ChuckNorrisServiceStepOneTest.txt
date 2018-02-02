@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisServiceStepOneTest
--------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 sec - in de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisServiceStepOneTest

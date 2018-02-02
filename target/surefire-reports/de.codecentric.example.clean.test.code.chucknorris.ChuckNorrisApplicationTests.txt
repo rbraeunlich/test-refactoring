@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.277 sec - in de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisApplicationTests
