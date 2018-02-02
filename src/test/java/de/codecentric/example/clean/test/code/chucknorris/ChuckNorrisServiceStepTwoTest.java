@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Map;
 
-import static de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisService.RANDOM_FACT_URL;
+import static de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisService.FACT_URL;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -47,7 +47,7 @@ public class ChuckNorrisServiceStepTwoTest {
     public void testSomething() {
         restEndpointShouldAnswer(GOOD_HTTP_PARAMS, (invocation) -> ITEM_RESPONSE);
 
-        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveRandomFact(EXISTING_JOKE);
+        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveFact(EXISTING_JOKE);
 
         assertThat(chuckNorrisFact, is(new ChuckNorrisFact(EXISTING_JOKE, "Chuck Norris is awesome")));
     }
@@ -56,7 +56,7 @@ public class ChuckNorrisServiceStepTwoTest {
     public void testSomethingElse() {
         restEndpointShouldAnswer(NON_EXISTING_HTTP_PARAMS, (invocation -> ERROR_RESPONSE));
 
-        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveRandomFact(NON_EXISTING_JOKE);
+        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveFact(NON_EXISTING_JOKE);
 
         assertThat(chuckNorrisFact, is(nullValue()));
     }
@@ -65,10 +65,10 @@ public class ChuckNorrisServiceStepTwoTest {
     public void testSomeError() {
         restEndpointShouldAnswer(BAD_HTTP_PARAMS, (invocation -> {throw new ResourceAccessException("I/O error");}));
 
-        myServiceUnderTest.retrieveRandomFact(BAD_JOKE);
+        myServiceUnderTest.retrieveFact(BAD_JOKE);
     }
 
     private void restEndpointShouldAnswer(Map<String, Long> httpParams, Answer<ResponseEntity<ChuckNorrisFactResponse>> response){
-        when(restTemplate.getForEntity(RANDOM_FACT_URL, ChuckNorrisFactResponse.class, httpParams)).thenAnswer(response);
+        when(restTemplate.getForEntity(FACT_URL, ChuckNorrisFactResponse.class, httpParams)).thenAnswer(response);
     }
 }

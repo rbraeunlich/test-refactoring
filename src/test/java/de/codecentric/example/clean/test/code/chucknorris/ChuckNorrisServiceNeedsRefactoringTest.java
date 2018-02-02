@@ -16,7 +16,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisService.RANDOM_FACT_URL;
+import static de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisService.FACT_URL;
 
 public class ChuckNorrisServiceNeedsRefactoringTest {
 
@@ -35,11 +35,11 @@ public class ChuckNorrisServiceNeedsRefactoringTest {
     @Test
     public void testSomething() {
         RestTemplate restTemplate = mock(RestTemplate.class);
-        when(restTemplate.getForEntity(RANDOM_FACT_URL, ChuckNorrisFactResponse.class, GOOD_HTTP_PARAMS))
+        when(restTemplate.getForEntity(FACT_URL, ChuckNorrisFactResponse.class, GOOD_HTTP_PARAMS))
                 .thenReturn(ITEM_RESPONSE);
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 
-        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveRandomFact(EXISTING_JOKE);
+        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveFact(EXISTING_JOKE);
 
         assertThat(chuckNorrisFact, is(new ChuckNorrisFact(EXISTING_JOKE, "Chuck Norris is awesome")));
     }
@@ -47,11 +47,11 @@ public class ChuckNorrisServiceNeedsRefactoringTest {
     @Test
     public void testSomethingElse() {
         RestTemplate restTemplate = mock(RestTemplate.class);
-        when(restTemplate.getForEntity(RANDOM_FACT_URL, ChuckNorrisFactResponse.class, NON_EXISTING_HTTP_PARAMS))
+        when(restTemplate.getForEntity(FACT_URL, ChuckNorrisFactResponse.class, NON_EXISTING_HTTP_PARAMS))
                 .thenReturn(ERROR_RESPONSE);
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 
-        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveRandomFact(NON_EXISTING_JOKE);
+        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveFact(NON_EXISTING_JOKE);
 
         assertThat(chuckNorrisFact, is(nullValue()));
     }
@@ -59,10 +59,10 @@ public class ChuckNorrisServiceNeedsRefactoringTest {
     @Test(expected = ResourceAccessException.class)
     public void testSomeError() {
         RestTemplate restTemplate = mock(RestTemplate.class);
-        when(restTemplate.getForEntity(RANDOM_FACT_URL, ChuckNorrisFactResponse.class, BAD_HTTP_PARAMS))
+        when(restTemplate.getForEntity(FACT_URL, ChuckNorrisFactResponse.class, BAD_HTTP_PARAMS))
                 .thenThrow(new ResourceAccessException("I/O error"));
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 
-        myServiceUnderTest.retrieveRandomFact(BAD_JOKE);
+        myServiceUnderTest.retrieveFact(BAD_JOKE);
     }
 }

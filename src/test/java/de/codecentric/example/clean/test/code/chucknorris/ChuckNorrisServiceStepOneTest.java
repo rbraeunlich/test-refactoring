@@ -3,7 +3,6 @@ package de.codecentric.example.clean.test.code.chucknorris;
 import de.codecentric.example.clean.test.code.chucknorris.domain.ChuckNorrisFact;
 
 import org.junit.Test;
-import org.mockito.Answers;
 import org.mockito.stubbing.Answer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Map;
 
-import static de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisService.RANDOM_FACT_URL;
+import static de.codecentric.example.clean.test.code.chucknorris.ChuckNorrisService.FACT_URL;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -39,7 +38,7 @@ public class ChuckNorrisServiceStepOneTest {
         RestTemplate restTemplate = restEndpointShouldAnswer(GOOD_HTTP_PARAMS, (invocation) -> ITEM_RESPONSE);
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 
-        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveRandomFact(EXISTING_JOKE);
+        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveFact(EXISTING_JOKE);
 
         assertThat(chuckNorrisFact, is(new ChuckNorrisFact(EXISTING_JOKE, "Chuck Norris is awesome")));
     }
@@ -49,7 +48,7 @@ public class ChuckNorrisServiceStepOneTest {
         RestTemplate restTemplate = restEndpointShouldAnswer(NON_EXISTING_HTTP_PARAMS, (invocation -> ERROR_RESPONSE));
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 
-        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveRandomFact(NON_EXISTING_JOKE);
+        ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveFact(NON_EXISTING_JOKE);
 
         assertThat(chuckNorrisFact, is(nullValue()));
     }
@@ -59,12 +58,12 @@ public class ChuckNorrisServiceStepOneTest {
         RestTemplate restTemplate = restEndpointShouldAnswer(BAD_HTTP_PARAMS, (invocation -> {throw new ResourceAccessException("I/O error");}));
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 
-        myServiceUnderTest.retrieveRandomFact(BAD_JOKE);
+        myServiceUnderTest.retrieveFact(BAD_JOKE);
     }
 
     private RestTemplate restEndpointShouldAnswer(Map<String, Long> httpParams, Answer<ResponseEntity<ChuckNorrisFactResponse>> response){
         RestTemplate restTemplate = mock(RestTemplate.class);
-        when(restTemplate.getForEntity(RANDOM_FACT_URL, ChuckNorrisFactResponse.class, httpParams)).thenAnswer(response);
+        when(restTemplate.getForEntity(FACT_URL, ChuckNorrisFactResponse.class, httpParams)).thenAnswer(response);
         return restTemplate;
     }
 }
