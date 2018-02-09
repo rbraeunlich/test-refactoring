@@ -3,6 +3,7 @@ package de.codecentric.example.clean.test.code.chucknorris;
 import de.codecentric.example.clean.test.code.chucknorris.domain.ChuckNorrisFact;
 
 import org.junit.Test;
+import org.mockito.Answers;
 import org.mockito.stubbing.Answer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class ChuckNorrisServiceStepOneTest {
             new ResponseEntity<>(new ChuckNorrisFactResponse("success", new ChuckNorrisFact(1L, "Chuck Norris is awesome")), HttpStatus.OK);
 
     @Test
-    public void testSomething() {
+    public void serviceShouldReturnFact() {
         RestTemplate restTemplate = restEndpointShouldAnswer(GOOD_HTTP_PARAMS, (invocation) -> ITEM_RESPONSE);
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 
@@ -44,7 +45,7 @@ public class ChuckNorrisServiceStepOneTest {
     }
 
     @Test
-    public void testSomethingElse() {
+    public void serviceShouldReturnNothing() {
         RestTemplate restTemplate = restEndpointShouldAnswer(NON_EXISTING_HTTP_PARAMS, (invocation -> ERROR_RESPONSE));
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 
@@ -54,7 +55,7 @@ public class ChuckNorrisServiceStepOneTest {
     }
 
     @Test(expected = ResourceAccessException.class)
-    public void testSomeError() {
+    public void serviceShouldPropagateException() {
         RestTemplate restTemplate = restEndpointShouldAnswer(BAD_HTTP_PARAMS, (invocation -> {throw new ResourceAccessException("I/O error");}));
         ChuckNorrisService myServiceUnderTest = new ChuckNorrisService(restTemplate);
 

@@ -44,7 +44,7 @@ public class ChuckNorrisServiceStepTwoTest {
     }
 
     @Test
-    public void testSomething() {
+    public void serviceShouldReturnFact() {
         restEndpointShouldAnswer(GOOD_HTTP_PARAMS, (invocation) -> ITEM_RESPONSE);
 
         ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveFact(EXISTING_JOKE);
@@ -53,7 +53,7 @@ public class ChuckNorrisServiceStepTwoTest {
     }
 
     @Test
-    public void testSomethingElse() {
+    public void serviceShouldReturnNothing() {
         restEndpointShouldAnswer(NON_EXISTING_HTTP_PARAMS, (invocation -> ERROR_RESPONSE));
 
         ChuckNorrisFact chuckNorrisFact = myServiceUnderTest.retrieveFact(NON_EXISTING_JOKE);
@@ -62,7 +62,7 @@ public class ChuckNorrisServiceStepTwoTest {
     }
 
     @Test(expected = ResourceAccessException.class)
-    public void testSomeError() {
+    public void serviceShouldPropagateException() {
         restEndpointShouldAnswer(BAD_HTTP_PARAMS, (invocation -> {throw new ResourceAccessException("I/O error");}));
 
         myServiceUnderTest.retrieveFact(BAD_JOKE);

@@ -33,7 +33,7 @@ public class ChuckNorrisServiceNeedsRefactoringTest {
             new ResponseEntity<>(new ChuckNorrisFactResponse("success", new ChuckNorrisFact(1L, "Chuck Norris is awesome")), HttpStatus.OK);
 
     @Test
-    public void testSomething() {
+    public void serviceShouldReturnFact() {
         RestTemplate restTemplate = mock(RestTemplate.class);
         when(restTemplate.getForEntity(FACT_URL, ChuckNorrisFactResponse.class, GOOD_HTTP_PARAMS))
                 .thenReturn(ITEM_RESPONSE);
@@ -45,7 +45,7 @@ public class ChuckNorrisServiceNeedsRefactoringTest {
     }
 
     @Test
-    public void testSomethingElse() {
+    public void serviceShouldReturnNothing() {
         RestTemplate restTemplate = mock(RestTemplate.class);
         when(restTemplate.getForEntity(FACT_URL, ChuckNorrisFactResponse.class, NON_EXISTING_HTTP_PARAMS))
                 .thenReturn(ERROR_RESPONSE);
@@ -57,7 +57,7 @@ public class ChuckNorrisServiceNeedsRefactoringTest {
     }
 
     @Test(expected = ResourceAccessException.class)
-    public void testSomeError() {
+    public void serviceShouldPropagateException() {
         RestTemplate restTemplate = mock(RestTemplate.class);
         when(restTemplate.getForEntity(FACT_URL, ChuckNorrisFactResponse.class, BAD_HTTP_PARAMS))
                 .thenThrow(new ResourceAccessException("I/O error"));
